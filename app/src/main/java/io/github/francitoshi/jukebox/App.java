@@ -3,13 +3,28 @@
  */
 package io.github.francitoshi.jukebox;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-        
+
+        String comando = "/opt/homebrew/bin/mplayer /Users/isaac_dugo/Downloads/shipping-up.mpeg"; // Ejemplo en sistemas Unix/Linux
+
+        try {
+            // Crear el proceso
+            Process proceso = new ProcessBuilder(comando.split("\\s+")).inheritIO().start();
+
+            // Esperar a que el proceso termine
+            int codigoSalida = proceso.waitFor();
+
+            // Imprimir el código de salida del proceso
+            System.out.println("El comando terminó con código: " + codigoSalida);
+
+        } catch (IOException | InterruptedException e) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE,null,e);
+        }
     }
 }
